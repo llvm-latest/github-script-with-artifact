@@ -1,3 +1,45 @@
+# actions/github-script-with-artifact
+
+> [!NOTE]
+> This fork add missing `artifact` package to [actions/github-script](https://github.com/actions/github-script)
+
+- `artifact` A reference to the [@actions/artifact](https://github.com/actions/toolkit/tree/main/packages/artifact) package
+
+Now you can do something with `artifact`:
+```yml
+jobs:
+  # You can now upload multiple artifacts at once.
+  upload-multiple-artifacts-at-once:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create your artifacts
+        run: |
+          echo "Hello, world!" > hello_1.txt
+          echo "Hello, world!" > hello_2.txt
+          echo "Hello, world!" > hello_3.txt
+      - uses: llvm-latest/github-script-with-artifact@main
+        with:
+          script: |
+            const fs = require('fs');
+
+            const files = fs.readdirSync('.').filter(file => file.endsWith('.txt'));
+
+            for (const file of files) {
+                console.log(`>>> Uploading ${file}...`);
+
+                const uploadResponse = await artifact.uploadArtifact(
+                    file,   // Name
+                    [file], // Files
+                    '.',    // Root Directory
+                    { compressionLevel: 0 }
+                );
+
+                console.log(`>>> Uploaded ${file} - ID: ${uploadResponse.id}`);
+            }
+```
+
+![example](docs/image.png)
+
 # actions/github-script
 
 [![Integration](https://github.com/actions/github-script/actions/workflows/integration.yml/badge.svg?branch=main&event=push)](https://github.com/actions/github-script/actions/workflows/integration.yml)
@@ -25,7 +67,7 @@ We will still provide security updates for this project and fix major breaking c
 
 You are welcome to still raise bugs in this repo.
 
-### This action 
+### This action
 
 To use this action, provide an input named `script` that contains the body of an asynchronous JavaScript function call.
 The following arguments will be provided:
@@ -567,4 +609,4 @@ jobs:
             } = await exec.getExecOutput('echo', ['hello']);
 
             console.log(exitCode, stdout, stderr)
-```      
+```

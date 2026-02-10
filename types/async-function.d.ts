@@ -5,6 +5,7 @@ import { Context } from '@actions/github/lib/context';
 import { GitHub } from '@actions/github/lib/utils';
 import * as glob from '@actions/glob';
 import * as io from '@actions/io';
+import artifact from '@actions/artifact';
 export declare type AsyncFunctionArguments = {
     context: Context;
     core: typeof core;
@@ -13,6 +14,7 @@ export declare type AsyncFunctionArguments = {
     exec: typeof exec;
     glob: typeof glob;
     io: typeof io;
+    artifact: typeof artifact;
     require: NodeRequire;
     __original_require__: NodeRequire;
 };

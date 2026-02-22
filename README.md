@@ -1,4 +1,4 @@
-# actions/github-script-with-artifact
+# llvm-latest/github-script-with-artifact
 
 > [!NOTE]
 > This fork add missing `artifact` package to [actions/github-script](https://github.com/actions/github-script)

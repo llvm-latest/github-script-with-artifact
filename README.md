@@ -21,12 +21,9 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-
             const files = fs.readdirSync('.').filter(file => file.endsWith('.txt'));
 
             for (const file of files) {
-                console.log(`>>> Uploading ${file}...`);
-
                 const uploadResponse = await artifact.uploadArtifact(
                     file,   // Name
                     [file], // Files
@@ -34,7 +31,7 @@ jobs:
                     { compressionLevel: 0 }
                 );
 
-                console.log(`>>> Uploaded ${file} - ID: ${uploadResponse.id}`);
+                core.info(`Uploaded ${file} - ID: ${uploadResponse.id}`);
             }
 ```
 
